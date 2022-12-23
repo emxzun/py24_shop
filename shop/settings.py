@@ -46,7 +46,8 @@ INSTALLED_APPS = [
     #lib
     'rest_framework',
     'rest_framework_simplejwt',
-    # 'drf_yasg',
+    'django_filters',
+    'drf_yasg',
 
     #apps
     'applications.account',
@@ -133,10 +134,29 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media/'
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    )
+}
+
+SWAGGER_SETTINGS = {
+    'SECURITY_DEFINITIONS': {
+        'api_key': {
+            'type': 'api_Key',
+            'in': 'header',
+            'name': 'Authorization'
+        }
+    }
+}
 
 AUTH_USER_MODEL = 'account.CustomUser'
 
@@ -144,6 +164,7 @@ SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=120),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1)
 }
+
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
